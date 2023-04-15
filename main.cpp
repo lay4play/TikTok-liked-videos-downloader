@@ -51,7 +51,7 @@ void videos_download(int raws){
         aux="yt-dlp ";
         concatenate_string(aux,aux1);
         concatenate_string(aux," -o ");
-        concatenate_string(aux,to_string((raws-i)+1);
+        concatenate_string(aux,to_string((raws-i)));
         concatenate_string(aux,".mp4");
         cout << aux << endl;
         system(aux.c_str());
