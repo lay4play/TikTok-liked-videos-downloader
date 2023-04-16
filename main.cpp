@@ -36,29 +36,30 @@ int main(){
 }
 
 void concatenate_string(string &str1, string str2){
-    str1+=str2;
+    str1+=str2;                                        //Merge the two string into str1
     return;
 }
 
+
+//Passing the video link to yt-dlp to download
 void videos_download(int raws){
     string aux, aux1;
     fstream links;
     links.open("links_file.txt");
     for(int i=0;i<raws;i++){
-        aux.clear();
-        aux1.clear();
-        links>>aux1;
         aux="yt-dlp ";
+        aux1.clear();
+        links>>aux1;                                    //Save current line link to aux1 string.
         concatenate_string(aux,aux1);
         concatenate_string(aux," -o ");
-        concatenate_string(aux,to_string((raws-i)));
+        concatenate_string(aux,to_string((raws-i)));    //Create the yt-dlp command
         concatenate_string(aux,".mp4");
-        cout << aux << endl;
-        system(aux.c_str());
+        system(aux.c_str());                            //Passing the command to yt-dlp
     }
     return;
 }
 
+//Equivalent to system("PAUSE") for linux.
 void pause_console(){
     char aux;
     do{
@@ -67,27 +68,31 @@ void pause_console(){
     return;
 }
 
+
+//Count file lines and return the exact number of them
 int count_file_lines(){
     ifstream inFile("links_file.txt"); 
-    return count(istreambuf_iterator<char>(inFile),istreambuf_iterator<char>(), '\n');
+    return count(istreambuf_iterator<char>(inFile),istreambuf_iterator<char>(), '\n')-1;
 }
 
+//Use the first converted file to separate the video links from the rest of the context and put them in another file.
 void rearrange_links(){
     system("grep -Po '^.*/video/[0-9]*$' first_convertion_file > links_file.txt");
     return;
 }
-
 
 void first_convertion(){
     system("grep -Po '(?<=href=\")[^\"]*' page.html > first_convertion_file");
     return;
 }
 
+
+//Check if a file exist
 bool file_check(string file_name){
     ifstream file(file_name);
     if(!file.is_open()){
         cout << "File not found" << endl;
-        return false;
+        return false;                                 //File not found, return false.
     }
-    return true;
+    return true;                                      //File found, return true.
 }
